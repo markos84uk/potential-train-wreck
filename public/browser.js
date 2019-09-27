@@ -1,4 +1,4 @@
-// Create an item
+// Create an items
 const form = document.getElementById("create-form");
 const input = document.getElementById("create-field");
 const list = document.getElementById("item-list");
