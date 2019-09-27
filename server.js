@@ -157,7 +157,7 @@ app.get("/", (req, res) => {
           <form id="create-form" action="/create-item" method="POST">
             <div class="d-flex align-items-center">
               <input placeholder="Add a message" id="create-field" name="item" autofocus autocomplete="off" class="form-control mr-3" type="text" style="flex: 1;">
-              <button class="btn btn-primary">Add New Item</button>
+              <button class="btn btn-primary">Add Message</button>
             </div>
           </form>
         </div>
