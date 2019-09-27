@@ -152,11 +152,11 @@ app.get("/", (req, res) => {
     <body>
       <div class="container">
         <h1 class="display-4 text-center py-1">My message board</h1>
-        <h5>Add, edit and delete items. You cannot use tags or attr's.</h5>
+        <h5>Add, edit and delete messages. You cannot use tags or attr's.</h5>
         <div class="jumbotron p-3 shadow-sm">
           <form id="create-form" action="/create-item" method="POST">
             <div class="d-flex align-items-center">
-              <input placeholder="Add an item" id="create-field" name="item" autofocus autocomplete="off" class="form-control mr-3" type="text" style="flex: 1;">
+              <input placeholder="Add a message" id="create-field" name="item" autofocus autocomplete="off" class="form-control mr-3" type="text" style="flex: 1;">
               <button class="btn btn-primary">Add New Item</button>
             </div>
           </form>
