@@ -151,8 +151,8 @@ app.get("/", (req, res) => {
     </head>
     <body>
       <div class="container">
-        <h1 class="display-4 text-center py-1">George's Todo App</h1>
-        
+        <h1 class="display-4 text-center py-1">My message board</h1>
+        <h5>Add, edit and delete items. You cannot use tags or attr's.</h5>
         <div class="jumbotron p-3 shadow-sm">
           <form id="create-form" action="/create-item" method="POST">
             <div class="d-flex align-items-center">
