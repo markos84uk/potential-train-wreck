@@ -15,7 +15,7 @@ app.use(express.static('public'))
 let connectionString = 'mongodb+srv://markos84uk:6GepFQzgokJXKe7s@cluster0-j50v7.mongodb.net/TodoApp?retryWrites=true&w=majority'
 mongodb.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
   db = client.db()
-  app.listen(3000)
+  app.listen(port)
 })
 
 // Bolierplate code
