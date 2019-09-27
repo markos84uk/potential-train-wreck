@@ -12,12 +12,12 @@ if (port === null || port === "") {
 
 app.use(express.static("public"));
 
-let connectionString =
+const connectionString =
   "mongodb+srv://markos84uk:6GepFQzgokJXKe7s@cluster0-j50v7.mongodb.net/TodoApp?retryWrites=true&w=majority";
 mongodb.connect(
   connectionString,
   { useNewUrlParser: true, useUnifiedTopology: true },
-  function(err, client) {
+  (err, client) => {
     db = client.db();
     app.listen(port);
   }
@@ -41,7 +41,7 @@ app.use(passwordProtected);
 app.get("/", (req, res) => {
   db.collection("items")
     .find()
-    .toArray(function(err, items) {
+    .toArray((err, items) => {
       res.send(`<!DOCTYPE html>
     <html>
     <head>
@@ -183,7 +183,7 @@ app.post("/create-item", (req, res) => {
     allowedTags: [],
     allowedAttributes: {}
   });
-  db.collection("items").insertOne({ text: safeText }, function(err, info) {
+  db.collection("items").insertOne({ text: safeText }, (err, info) => {
     res.json(info.ops[0]);
   });
 });
@@ -196,7 +196,7 @@ app.post("/update-item", (req, res) => {
   db.collection("items").findOneAndUpdate(
     { _id: new mongodb.ObjectId(req.body.id) },
     { $set: { text: safeText } },
-    function() {
+    () => {
       res.send("update OK");
     }
   );
@@ -206,7 +206,7 @@ app.post("/update-item", (req, res) => {
 app.post("/delete-item", (req, res) => {
   db.collection("items").deleteOne(
     { _id: new mongodb.ObjectID(req.body.id) },
-    function() {
+    () => {
       res.send("deleted");
     }
   );
