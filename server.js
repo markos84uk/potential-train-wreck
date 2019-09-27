@@ -5,6 +5,11 @@ let sanitizeHTML = require('sanitize-html')
 const app = express()
 let db
 
+let port = process.env.PORT
+if (port == null || port == '') {
+  port = 3000
+}
+
 app.use(express.static('public'))
 
 let connectionString = 'mongodb+srv://markos84uk:6GepFQzgokJXKe7s@cluster0-j50v7.mongodb.net/TodoApp?retryWrites=true&w=majority'
