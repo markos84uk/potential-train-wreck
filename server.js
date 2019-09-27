@@ -1,42 +1,48 @@
-const express = require('express')
-let mongodb = require('mongodb')
-let sanitizeHTML = require('sanitize-html')
+const express = require("express");
+let mongodb = require("mongodb");
+let sanitizeHTML = require("sanitize-html");
 
-const app = express()
-let db
+const app = express();
+let db;
 
-let port = process.env.PORT
-if (port == null || port == '') {
-  port = 3000
+let port = process.env.PORT;
+if (port === null || port === "") {
+  port = 3000;
 }
 
-app.use(express.static('public'))
+app.use(express.static("public"));
 
-let connectionString = 'mongodb+srv://markos84uk:6GepFQzgokJXKe7s@cluster0-j50v7.mongodb.net/TodoApp?retryWrites=true&w=majority'
-mongodb.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
-  db = client.db()
-  app.listen(port)
-})
+let connectionString =
+  "mongodb+srv://markos84uk:6GepFQzgokJXKe7s@cluster0-j50v7.mongodb.net/TodoApp?retryWrites=true&w=majority";
+mongodb.connect(
+  connectionString,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  function(err, client) {
+    db = client.db();
+    app.listen(port);
+  }
+);
 
 // Bolierplate code
-app.use(express.json())
-app.use(express.urlencoded({extended: false}))
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-function passwordProtected(req, res, next) {
-  res.set('WWW-Authenticate', 'Basic realm="Simple Todo App"')
-  console.log(req.headers.authorization)
-  if(req.headers.authorization == "Basic bWFya3NhcHA6bWFya3ltYXJr") {
-    next()
+const passwordProtected = (req, res, next) => {
+  res.set("WWW-Authenticate", 'Basic realm="Simple Todo App"');
+  console.log(req.headers.authorization);
+  if (req.headers.authorization === "Basic bWFya3NhcHA6bWFya3ltYXJr") {
+    next();
   } else {
-    res.status(401).send("Authentication required")
+    res.status(401).send("Authentication required");
   }
-  
-}
-app.use(passwordProtected)
+};
+app.use(passwordProtected);
 
-app.get('/', function(req, res) {
-  db.collection('items').find().toArray(function(err, items) {
-    res.send(`<!DOCTYPE html>
+app.get("/", (req, res) => {
+  db.collection("items")
+    .find()
+    .toArray(function(err, items) {
+      res.send(`<!DOCTYPE html>
     <html>
     <head>
       <meta charset="UTF-8">
@@ -168,32 +174,40 @@ app.get('/', function(req, res) {
       <script src="browser.js"></script>
       </script>
     </body>
-    </html>`)
-  })  
-  
-})
+    </html>`);
+    });
+});
 
-app.post('/create-item', function(req, res) {
-  let safeText = sanitizeHTML(req.body.text, {allowedTags: [], allowedAttributes: {}})
-  db.collection('items').insertOne({text: safeText}, function(err, info) {
-    res.json(info.ops[0])
-  })
-})
+app.post("/create-item", (req, res) => {
+  let safeText = sanitizeHTML(req.body.text, {
+    allowedTags: [],
+    allowedAttributes: {}
+  });
+  db.collection("items").insertOne({ text: safeText }, function(err, info) {
+    res.json(info.ops[0]);
+  });
+});
 
-app.post('/update-item', function(req, res) {
-  let safeText = sanitizeHTML(req.body.text, {allowedTags: [], allowedAttributes: {}})
-  db.collection('items').findOneAndUpdate({_id: new mongodb.ObjectId(req.body.id)}, {$set: {text: safeText}}, function() {
-    res.send('update OK')
-  })
-})
+app.post("/update-item", (req, res) => {
+  let safeText = sanitizeHTML(req.body.text, {
+    allowedTags: [],
+    allowedAttributes: {}
+  });
+  db.collection("items").findOneAndUpdate(
+    { _id: new mongodb.ObjectId(req.body.id) },
+    { $set: { text: safeText } },
+    function() {
+      res.send("update OK");
+    }
+  );
+});
 
 // this should work with the delete function in browser.js
-app.post('/delete-item', function(req, res) {
-  db.collection('items').deleteOne({_id: new mongodb.ObjectID(req.body.id)}, function() {
-    res.send('deleted')
-  })
-})
-
-
-
-
+app.post("/delete-item", (req, res) => {
+  db.collection("items").deleteOne(
+    { _id: new mongodb.ObjectID(req.body.id) },
+    function() {
+      res.send("deleted");
+    }
+  );
+});

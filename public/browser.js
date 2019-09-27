@@ -1,51 +1,48 @@
 // Creat an item
-let form = document.getElementById("create-form");
-let input = document.getElementById("create-field");
-let list = document.getElementById("item-list");
+const form = document.getElementById("create-form");
+const input = document.getElementById("create-field");
+const list = document.getElementById("item-list");
 
-function itemTemplate(item) {
-    return `<li class="list-group-item">
+const itemTemplate = item => `<li class="list-group-item">
     <span class="item-text">${item.text}</span>
     <div class="button-wrap">
       <button data-id="${item._id}"class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
       <button data-id="${item._id}"class="delete-me btn btn-danger btn-sm">Delete</button>
     </div>
-  </li>`
-}
-let ourHTML = items.map(function(item) {
-    return itemTemplate(item)
-}).join('')
+  </li>`;
 
-list.insertAdjacentHTML('beforeend', ourHTML)
+const ourHTML = items.map(item => itemTemplate(item)).join("");
 
-form.addEventListener("submit", function(e) {
+list.insertAdjacentHTML("beforeend", ourHTML);
+
+form.addEventListener("submit", e => {
   e.preventDefault();
-  if(input.value.length <= 2) {
-    return alert('Must be longer than 2 letters')
+  if (input.value.length <= 2) {
+    return alert("Must be longer than 2 letters");
   }
   axios
-    .post("/create-item", {text: input.value })
-    .then((response) => {
-        // Create HTML for new item here
-        list.insertAdjacentHTML('beforeend', itemTemplate(response.data))
+    .post("/create-item", { text: input.value })
+    .then(response => {
+      // Create HTML for new item here
+      list.insertAdjacentHTML("beforeend", itemTemplate(response.data));
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error);
     });
-    input.value = ''
-    input.focus()
+  input.value = "";
+  input.focus();
 });
 
-document.addEventListener("click", function(e) {
-  // Delete
+// Delete the item from browser and database
+document.addEventListener("click", e => {
   if (e.target.classList.contains("delete-me")) {
     if (confirm("Are you sure you want to delete this item?")) {
       axios
         .post("/delete-item", { id: e.target.getAttribute("data-id") })
-        .then(function() {
+        .then(() => {
           e.target.parentElement.parentElement.remove();
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     }
@@ -62,13 +59,12 @@ document.addEventListener("click", function(e) {
           text: userInput,
           id: e.target.getAttribute("data-id")
         })
-        .then(function() {
-          // do something in the next video
+        .then(() => {
           e.target.parentElement.parentElement.querySelector(
             ".item-text"
           ).innerHTML = userInput;
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     }
