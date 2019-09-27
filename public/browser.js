@@ -29,8 +29,8 @@ form.addEventListener("submit", function(e) {
         // Create HTML for new item here
         list.insertAdjacentHTML('beforeend', itemTemplate(response.data))
     })
-    .catch(() => {
-      console.log("Please try again later");
+    .catch((error) => {
+      console.log(error);
     });
     input.value = ''
     input.focus()
@@ -45,8 +45,8 @@ document.addEventListener("click", function(e) {
         .then(function() {
           e.target.parentElement.parentElement.remove();
         })
-        .catch(() => {
-          console.log("Please try again later");
+        .catch((error) => {
+          console.log(error);
         });
     }
   }
@@ -68,8 +68,8 @@ document.addEventListener("click", function(e) {
             ".item-text"
           ).innerHTML = userInput;
         })
-        .catch(function() {
-          console.log("Please try again later.");
+        .catch((error) => {
+          console.log(error);
         });
     }
   }
