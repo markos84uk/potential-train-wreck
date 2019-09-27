@@ -56,6 +56,7 @@ app.get("/", (req, res) => {
       .display-4 {
         color: #333;
         font-size: 48px;
+        margin-bottom: 10px;
       }
       
       .container {
